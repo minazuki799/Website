@@ -269,14 +269,26 @@ header {visibility: hidden;}
 
 # ── Sidebar Navigation ────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("""
-    <div style='text-align:center; padding: 20px 0;'>
+    # 1. Convert your local logo to base64 so it renders reliably
+    import base64
+    def get_base64_logo(path):
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode()
+
+    # Replace 'logo.png' with your actual filename
+    logo_base64 = get_base64_logo("Swift blue trans.png") 
+
+    st.markdown(f"""
+    <div style='text-align:center; padding: 20px 0 10px 0;'>
+        <img src='data:image/png;base64,{logo_base64}' 
+             style='width: 80px; height: 80px; border-radius: 50%; border: 2px solid #C8A97E; margin-bottom: 15px;'>
         <div style='font-family: Playfair Display, serif; font-size: 1.4rem; color: #E8E8F0;'>Victor Okosun</div>
         <div style='color: #C8A97E; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px;'>Portfolio</div>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("---")
+
 
     page = st.radio(
         "",
@@ -307,37 +319,34 @@ if page == "🏠 Home":
             <hr class='gold-divider'>
             <div class='hero-description'>
                 A multidisciplinary creative at the intersection of music and machine learning.
-                Medical Biochemistry graduate turned ML engineer — composing soundscapes
+                Medical Biochemistry graduate turned ML engineer, composing soundscapes
                 and building intelligent systems that make a real difference.
             </div>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
-        # Replace emoji with st.image("your_photo.jpg") when you have a photo
-        st.markdown("""
-        <div class='profile-frame'>👤</div>
-        <div style='text-align:center; color: #9090A8; font-size: 0.8rem; margin-top: 8px;'>
-            Replace with your photo using st.image()
-        </div>
-        """, unsafe_allow_html=True)
+    # This replaces the HTML placeholder with a real image file
+        st.image("profile pic.jpg", use_container_width=True)
+        
+        # Optional: Keep a nice caption below it
+        st.caption("Victor Okosun || SWIFT")
+
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # Quick stats
-    c1, c2, c3, c4 = st.columns(4)
+    c1, c2, c3 = st.columns(3)
     stats = [
-        ("🎵", "5+", "Years in Music"),
-        ("🎬", "50+", "Projects Scored"),
-        ("🤖", "3+", "ML Projects"),
-        ("🎓", "3", "Certifications"),
+        ("🎵", "Film Music"),
+        ("🤖", "ML Projects"),
+        ("🎓", "Certifications"),
     ]
-    for col, (icon, num, label) in zip([c1, c2, c3, c4], stats):
+    for col, (icon, label) in zip([c1, c2, c3], stats):
         with col:
             st.markdown(f"""
             <div class='card' style='text-align:center;'>
                 <div style='font-size:2rem;'>{icon}</div>
-                <div style='font-family: Playfair Display, serif; font-size: 2rem; color: #C8A97E;'>{num}</div>
                 <div style='color: #9090A8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;'>{label}</div>
             </div>
             """, unsafe_allow_html=True)
@@ -356,41 +365,31 @@ if page == "🏠 Home":
         <div class='card-text' style='font-size: 0.95rem; line-height: 1.9;'>
         I hold a BSc in Medical Biochemistry from the University of Benin (2017–2023)
         and have spent years working as a freelance music composer, mixing engineer,
-        and audio producer — crafting soundtracks for films, commercials, and artists.<br><br>
-        Driven by curiosity, I transitioned into machine learning through self-directed study —
-        completing Coursera's Machine Learning Specialization, Harvard's CS50, and building
+        and audio producer, crafting soundtracks and music for a number of short films and artists.<br><br>
+        Driven by curiosity, I transitioned into machine learning through self-directed study. I
+        completed Coursera's Machine Learning Specialization, Harvard's CS50 Introduction to Databases with SQL while building
         production-ready ML projects. I bring a unique perspective that blends scientific
         rigour, creative thinking, and technical engineering.
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
+        skills = [
+        "Music Composition",
+        "Mixing & Mastering",
+        "Audio Engineering",
+        "Data Analysis",
+        "Deep Learning",
+        "Python & ML Engineering",
+    ]
         st.markdown("""
         <div class='section-header'>Skills</div>
         <div class='section-sub'>Technical & Creative</div>
         """, unsafe_allow_html=True)
 
-        skills = [
-            ("Python & ML Engineering", 85),
-            ("Music Composition", 95),
-            ("Mixing & Mastering", 90),
-            ("Data Analysis", 80),
-            ("Deep Learning", 70),
-            ("Audio Engineering", 92),
-        ]
+        for skill in skills:
+            st.markdown(f"<div style='color: #E8E8F0; margin-bottom: 5px;'>• {skill}</div>", unsafe_allow_html=True)
 
-        for skill, pct in skills:
-            st.markdown(f"""
-            <div class='skill-item'>
-                <div class='skill-label'>
-                    <span>{skill}</span>
-                    <span style='color: #C8A97E;'>{pct}%</span>
-                </div>
-                <div class='skill-bar-bg'>
-                    <div class='skill-bar-fill' style='width: {pct}%;'></div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
 
 
 # ── MUSIC PORTFOLIO ───────────────────────────────────────────────────────────
@@ -401,37 +400,42 @@ elif page == "🎵 Music Portfolio":
     <div class='section-sub'>Compositions · Mixes · Productions</div>
     """, unsafe_allow_html=True)
 
-    st.info("💡 Add your actual audio files using `st.audio()` and replace the placeholder links with your real portfolio links.")
-
     # Featured work
     st.markdown("### 🎬 Film & Media Scores")
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     music_projects = [
         {
-            "title": "Project Title 1",
+            "title": "The Kingfisher",
             "type": "Film Score",
-            "description": "Add a description of this project — what it was for, the mood you created, and the tools used.",
-            "tags": ["Orchestral", "Film", "Pro Tools"],
-            "link": "#"
+            "role": "Film Music Composer and Audio Engineer",
+            "tags": ["Orchestral", "Film", "Cubase"],
+            "link": "https://youtu.be/IMoTi2o0Nn0?si=c8Bql38Qe4zQoQwO"
         },
         {
-            "title": "Project Title 2",
-            "type": "Commercial Score",
-            "description": "Add a description of this project — client name, brief, and your creative approach.",
-            "tags": ["Electronic", "Commercial", "Logic Pro"],
-            "link": "#"
+            "title": "Tales of a Sunrise",
+            "type": "Film Score",
+            "role": "Film Music Composer and Audio Engineer",
+            "tags": ["Ethnic", "Short", "Cubase"],
+            "link": "https://youtu.be/29PBHjNMUFo?si=qDMr9-4OpZKgvxtz"
         },
         {
-            "title": "Project Title 3",
-            "type": "Artist Production",
-            "description": "Add a description — the artist, genre, and your role in the production.",
-            "tags": ["Afrobeats", "Production", "Mixing"],
-            "link": "#"
+            "title": "EEWO",
+            "type": "Film Score",
+            "role": "Film Music Composer and Audio Engineer.",
+            "tags": ["Ethnic", "Short", "Cubase"],
+            "link": "https://youtu.be/KAYO-a-JJWM?si=cuzFtzOyNTb2IZyG"
+        },
+        {
+            "title": "Na Zongi",
+            "type": "Film Score",
+            "role": "Film Music Composer.",
+            "tags": ["Ethnic", "Short", "Cubase"],
+            "link": "https://youtu.be/ibMjBPPoT38?si=4FGKUY-lZQBwGEDL"
         },
     ]
 
-    for col, project in zip([col1, col2, col3], music_projects):
+    for col, project in zip([col1, col2, col3,col4], music_projects):
         with col:
             tags_html = "".join([f"<span class='card-tag'>{t}</span>" for t in project['tags']])
             st.markdown(f"""
@@ -439,34 +443,34 @@ elif page == "🎵 Music Portfolio":
                 <div style='color: #C8A97E; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;'>{project['type']}</div>
                 <div class='card-title'>{project['title']}</div>
                 {tags_html}
-                <div class='card-text'>{project['description']}</div>
+                <div class='card-text'>{project['role']}</div>
                 <div style='margin-top: 16px;'>
-                    <a href='{project['link']}' style='color: #C8A97E; font-size: 0.85rem; text-decoration: none;'>▶ Listen →</a>
+                    <a href='{project['link']}' style='color: #C8A97E; font-size: 0.85rem; text-decoration: none;'>▶ Preview →</a>
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("### 🎧 Audio Samples")
-    st.markdown("""
-    <div class='card'>
-        <div class='card-title'>Add Your Audio Files</div>
-        <div class='card-text'>Use the code below to embed audio players for your tracks:</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("### 🎧 My Music")
 
-    st.code("""
-# Upload your audio files and use:
-st.audio("your_track.mp3")
+    # Use st.markdown to render the Spotify iframe directly
+    st.markdown(
+        """
+        <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/album/21nB4ySp0gsfuXyV70C0JA?utm_source=generator" 
+            width="100%" height="352" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+        """, 
+        unsafe_allow_html=True
+    )
 
-# Or embed from a URL:
-st.audio("https://your-audio-url.com/track.mp3")
-    """, language="python")
 
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("### 🛠️ Tools & DAWs")
 
-    tools = ["Pro Tools", "Logic Pro X", "Ableton Live", "Slate Digital", "Native Instruments", "Kontakt", "Spitfire Audio", "iZotope"]
+    tools = ["Cubase", "Fl Studio", "Ableton Live", "Izotope", "MuseScore Studio"]
     tags_html = "".join([f"<span class='card-tag'>{t}</span>" for t in tools])
     st.markdown(f"<div style='padding: 10px 0;'>{tags_html}</div>", unsafe_allow_html=True)
 
@@ -496,15 +500,6 @@ elif page == "🤖 ML Projects":
             "tags": ["Stacking Ensemble", "XGBoost", "Feature Engineering", "Kaggle"],
             "metrics": [("RMSE", "0.13"), ("Model", "Stacking"), ("Features", "80+")],
             "github": "https://github.com/minazuki799/Ames-House-Prices",
-            "demo": None
-        },
-        {
-            "title": "Customer Churn Prediction API",
-            "status": "Complete",
-            "description": "A production-ready churn prediction model served via Flask REST API, containerised with Docker. Includes a full ML pipeline with preprocessing, logistic regression, and Gunicorn deployment.",
-            "tags": ["Flask", "Docker", "Logistic Regression", "REST API", "Gunicorn"],
-            "metrics": [("Deployment", "Docker"), ("API", "REST"), ("Server", "Gunicorn")],
-            "github": "https://github.com/minazuki799/Machine-Learning-Zoomcamp",
             "demo": None
         },
     ]
@@ -542,25 +537,39 @@ elif page == "🤖 ML Projects":
     <div class='section-header'>Certifications</div>
     <div class='section-sub'>Verified Credentials</div>
     """, unsafe_allow_html=True)
+    # helper function
+    import base64
+
+    def get_pdf_link(file_path):
+        with open(file_path, "rb") as f:
+            base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+        return f"data:application/pdf;base64,{base64_pdf}"
 
     certs = [
-        ("🎓", "Machine Learning Specialization", "Coursera · DeepLearning.AI — March 2026"),
-        ("🏛️", "CS50: Introduction to Computer Science", "HarvardX — October 2025"),
-        ("💾", "Introduction to SQL", "HarvardX"),
-        ("💻", "Responsive Web Design", "freeCodeCamp — August 2025"),
-        ("🎚️", "Audio Engineering Certificate", "Slate Digital — 2019"),
-    ]
+    ("🎓", "Machine Learning Specialization", "Coursera · DeepLearning.AI", "Coursera Machine Learning Specialization.pdf"),
+    ("💾", "Introduction to SQL", "HarvardX", "Introduction to SQL.pdf"),
+]
 
-    for icon, title, issuer in certs:
-        st.markdown(f"""
-        <div class='cert-badge'>
-            <div class='cert-icon'>{icon}</div>
-            <div>
-                <div class='cert-title'>{title}</div>
-                <div class='cert-issuer'>{issuer}</div>
+
+    for icon, title, issuer, filename in certs:
+        try:
+            # Create the local link
+            pdf_data = get_pdf_link(filename)
+            
+            st.markdown(f"""
+            <div class='cert-badge'>
+                <div class='cert-icon'>{icon}</div>
+                <div>
+                    <a href='{pdf_data}' download='{filename}' style='text-decoration: none; color: inherit;'>
+                        <div class='cert-title' style='cursor: pointer;'>{title} 📄</div>
+                    </a>
+                    <div class='cert-issuer'>{issuer}</div>
+                </div>
             </div>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
+        except FileNotFoundError:
+            st.error(f"File not found: {filename}. Make sure it is in your project folder!")
+
 
 
 # ── SERVICES ──────────────────────────────────────────────────────────────────
@@ -578,7 +587,7 @@ elif page == "⚙️ Services":
     music_services = [
         ("🎼", "Film & Media Scoring", "Custom original compositions for films, documentaries, advertisements, and games. Mood-driven, narrative-aware music that elevates your visual content."),
         ("🎚️", "Mixing & Mastering", "Professional mixing and mastering for artists and labels. Clean, balanced mixes delivered to broadcast-ready quality standards."),
-        ("🎹", "Music Production", "Full music production from concept to final delivery. Genres including Afrobeats, cinematic, electronic, and contemporary gospel."),
+        ("🎹", "Music Production", "Full music production from concept to final delivery. Genres including Afrobeats, cinematic, electronic, and pop."),
     ]
 
     for col, (icon, title, text) in zip([col1, col2, col3], music_services):
@@ -599,8 +608,8 @@ elif page == "⚙️ Services":
 
     ml_services = [
         ("📊", "ML Model Development", "End-to-end machine learning pipeline development — data preprocessing, feature engineering, model training, evaluation, and deployment."),
-        ("🌐", "ML Web App Development", "Production-ready ML applications built with Streamlit or Flask. Clean UI, REST APIs, and Docker containerisation included."),
-        ("🔍", "Data Analysis & EDA", "Exploratory data analysis, visualisations, and actionable insights from your datasets using Python, Pandas, and Plotly."),
+        ("🌐", "ML Web App Development", "Production-ready ML applications built with Streamlit or Flask."),
+        ("🔍", "Data Analysis & EDA", "Exploratory data analysis, visualisations, and actionable insights from your datasets using Python, Pandas, Seaborn and Matplotlib."),
     ]
 
     for col, (icon, title, text) in zip([col1, col2, col3], ml_services):
@@ -625,7 +634,7 @@ elif page == "⚙️ Services":
             <div class='card-title'>Machine Learning</div>
             <div style='margin-top: 10px;'>
         """, unsafe_allow_html=True)
-        ml_tools = ["Python", "Scikit-learn", "XGBoost", "TensorFlow", "Keras", "Pandas", "NumPy", "Plotly", "Streamlit", "Flask", "Docker"]
+        ml_tools = ["Python", "Scikit-learn", "XGBoost", "TensorFlow", "Keras", "Pandas", "NumPy", "Plotly", "Streamlit", "Flask", "Docker","Pytorch"]
         tags = "".join([f"<span class='card-tag'>{t}</span>" for t in ml_tools])
         st.markdown(f"{tags}</div></div>", unsafe_allow_html=True)
 
@@ -635,7 +644,7 @@ elif page == "⚙️ Services":
             <div class='card-title'>Music & Audio</div>
             <div style='margin-top: 10px;'>
         """, unsafe_allow_html=True)
-        audio_tools = ["Pro Tools", "Logic Pro X", "Ableton Live", "Slate Digital", "Kontakt", "Spitfire Audio", "iZotope RX", "Native Instruments"]
+        audio_tools = ["Cubase", "Ableton Live", "Fl Studio","MuseScore","Izotope", "Izotope RX", "Slate Digital", "Kontakt", "Spitfire Audio", "Waves", "Native Instruments"]
         tags = "".join([f"<span class='card-tag'>{t}</span>" for t in audio_tools])
         st.markdown(f"{tags}</div></div>", unsafe_allow_html=True)
 
@@ -701,11 +710,15 @@ elif page == "📬 Contact":
         <div class='card'>
             <div class='card-title' style='margin-bottom: 16px;'>Find Me Online</div>
             <div style='display: flex; flex-direction: column; gap: 10px;'>
-                <a href='https://github.com/minazuki799' target='_blank' class='contact-link'>🐙 github.com/minazuki799</a>
-                <a href='https://linkedin.com/in/victor-okosun' target='_blank' class='contact-link'>💼 linkedin.com/in/victor-okosun</a>
+                <a href='https://github.com/minazuki799' target='_blank' class='contact-link'>🐙 GitHub / minazuki799</a>
+                <a href='https://linkedin.com/in/victor-okosun' target='_blank' class='contact-link'>💼 LinkedIn / Victor Okosun</a>
+                <a href='https://www.youtube.com/@musicbyswift' target='_blank' class='contact-link'>🔴 YouTube / @musicbyswift</a>
+                <a href='https://open.spotify.com/artist/4RtJsq2FRw3y678Ds36IOm?si=dFynddewTzqzZKYQ8w2vDw' target='_blank' class='contact-link'>🎵 Spotify / Victor Okosun</a>
             </div>
         </div>
         """, unsafe_allow_html=True)
+
+
 
 
 # ── Footer ────────────────────────────────────────────────────────────────────
