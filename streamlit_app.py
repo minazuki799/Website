@@ -3,7 +3,8 @@ import streamlit as st
 st.set_page_config(
     page_title="Victor Okosun — Portfolio",
     page_icon="🎵",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 # ── Custom CSS ────────────────────────────────────────────────────────────────
@@ -265,6 +266,8 @@ header {visibility: hidden;}
 }
 </style>
 """, unsafe_allow_html=True)
+
+
 
 
 # ── Sidebar Navigation ────────────────────────────────────────────────────────
