@@ -4,7 +4,6 @@ st.set_page_config(
     page_title="Victor Okosun — Portfolio",
     page_icon="🎵",
     layout="wide",
-    initial_sidebar_state="expanded"
 )
 
 # ── Custom CSS ────────────────────────────────────────────────────────────────
@@ -17,10 +16,16 @@ html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif;
 }
 
-/* Hide default streamlit elements */
+
+/* Hide only the clutter, but keep the header functional for mobile */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
-header {visibility: hidden;}
+
+/* Adjust the header so the sidebar button remains clickable */
+header {
+    background-color: transparent !important;
+}
+
 
 /* Hero section */
 .hero-container {
@@ -263,6 +268,15 @@ header {visibility: hidden;}
     justify-content: center;
     color: #C8A97E;
     font-size: 4rem;
+}
+
+button[data-testid="stBaseButton-headerNoContext"] {
+    display: flex !important;
+    color: #C8A97E !important;
+}
+
+[data-testid="stSidebar"] {
+    display: block !important;
 }
 </style>
 """, unsafe_allow_html=True)
