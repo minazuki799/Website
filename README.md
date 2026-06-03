@@ -1,7 +1,7 @@
 # Website 
 
 
-A website showcasing all services and portfolio of Swift
+A website showcasing all services and portfolio of Swift.
 
 ## Demo Website
 
