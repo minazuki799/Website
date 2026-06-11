@@ -565,6 +565,7 @@ elif page == "🤖 ML Projects":
     certs = [
     ("🎓", "Machine Learning Specialization", "Coursera · DeepLearning.AI", "Coursera Machine Learning Specialization.pdf"),
     ("💾", "Introduction to SQL", "HarvardX", "Introduction to SQL.pdf"),
+    ("💾", "Mathematics for Machine Learning and Data Science", "Cousera", "Mathematics for Machine Learning and Data Science.pdf"),  
 ]
 
 
